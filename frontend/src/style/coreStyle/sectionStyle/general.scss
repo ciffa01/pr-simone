@@ -1,0 +1,185 @@
+@import '../variables/colorVariables.scss';
+@import '../variables/coreVariables.scss';
+
+a {
+    text-decoration: none;
+}
+
+p {
+    margin: 0;
+}
+
+//****************************//
+//********** COLOR **********//
+//**************************//
+@each $name, $color in $baseColor {
+    @for $count from 1 to 10 {
+        .bg-#{$name}-#{$count*100} {
+            background-color: darken($color, ($count*10%)-10);
+        }
+
+        .text-#{$name}-#{$count*100} {
+            color: darken($color, ($count*10%)-10);
+        }
+    }
+    .#{$name}-primary {
+        background-color: darken($color, 40%);
+    }
+
+    .text-#{$name}-primary {
+        color: darken($color, 40%);
+    }
+
+   
+
+
+}
+
+.text-white {
+    color: $white;
+}
+
+.bg-transparent {
+    background-color: transparent
+}
+
+//****************************//
+//********** TEXT ***********//
+//**************************//
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700&display=swap'); //Google Font: Kumbh Sans
+
+//**** Size ****//
+$base-text-size: 1rem; //16px
+$base-title-size: 2.5rem; //32px
+$i: 0;
+
+@each $name, $s in $size {
+    $i: $i + 1;
+
+    @if $i != 1 {
+        $base-text-size: $base-text-size+0.25;
+        $base-title-size: $base-title-size+0.25;
+    }
+
+    .text-#{$s} {
+        font-size: $base-text-size;
+    }
+
+    .title-#{$s} {
+        font-size: $base-title-size;
+        color: var(--blue-500);
+    }
+}
+
+//**** Weight ****//
+@for $count from 4 to 8 {
+    .weight-#{$count*100} {
+        font-weight: $count*100;
+    }
+}
+
+//**** Style ****//
+.text-italic {
+    font-style: italic;
+}
+
+.text-underline {
+    text-decoration: underline;
+}
+
+//**** Align ****//
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+//****************************//
+//********** SIZING *********//
+//**************************//
+@each $size in $sizeNumber {
+    .width-#{$size} {
+        width: $size*1%;
+        box-sizing: border-box;
+    }
+
+    .max-width-#{$size} {
+        max-width: $size*1%;
+        box-sizing: border-box;
+    }
+
+    .height-#{$size} {
+        height:$size*1%;
+        box-sizing: border-box;
+    }
+
+    .max-height-#{$size} {
+        max-height: $size*1%;
+        box-sizing: border-box;
+    }
+}
+
+//****************************//
+//******** POSITION *********//
+//**************************//
+.vertical-align {
+    margin: 0 auto;
+}
+
+.horizontal-align {
+    margin: auto 0;
+}
+
+
+//****************************//
+//******** SPACING **********//
+//**************************//
+$base-spacing: 0.5rem;
+/* $base-s: 0.5rem; */
+$i: 0;
+@each $name, $s in $size {
+    // $ok: index($size, $s);
+    $i: $i+1;
+
+    @if $i != 1 {
+        $base-spacing: $base-spacing+0.5;
+    }
+
+    .mg-#{$s} {
+        margin: $base-spacing;
+    }
+
+    .pd-#{$s} {
+        padding: $base-spacing;
+    }
+
+    @each $name, $pos in $position {
+        .mg-#{$pos}-#{$s} {
+            margin-#{$name}: $base-spacing;
+        }
+
+        .pd-#{$pos}-#{$s} {
+            padding-#{$name}: $base-spacing;
+        }
+    }
+}
+
+
+//****************************//
+//********* ACTION **********//
+//**************************//
+.hide {
+    display: none !important;
+}
+
+.readonly {
+    background: $black-200;
+    opacity: 0.8;
+    cursor: not-allowed;
+}

@@ -1,0 +1,99 @@
+@import '../variables/colorVariables.scss';
+@import '../variables/coreVariables.scss';
+
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 4px 0 #ccd0d9;
+}
+
+/****************************************/
+/*************** BUTTON ****************/
+/**************************************/
+button {
+    cursor: pointer;
+}
+
+.btn-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.btn-default {
+    font-size: 0.95rem;
+    padding: 0.7rem 1rem;
+    border: 2px solid;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.btn-default:hover {
+    opacity: 0.8;
+}
+
+@each $name, $color in $baseColor {
+    .btn-#{$name}-primary {
+        background-color: darken($color, 40%);
+        border-color: $transparent;
+        box-shadow: 0px 0px 12px 1px #bfbfbf78;
+    }
+
+    .btn-#{$name}-secondary {
+        background-color: $transparent;
+        color: darken($color, 40%);
+        border-color: darken($color, 40%);
+    }
+
+    .btn-#{$name}-tertiary {
+        background-color: $transparent;
+        border-color: $transparent;
+        color: darken($color, 40%);
+        text-decoration: underline;
+    }
+}
+
+
+/****************************/
+/********* TOOLTIP *********/
+/**************************/
+
+/****************************/
+/********* IMAGES **********/
+/**************************/
+img {
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+
+    .img-contain {
+        background-size: contain;
+    }
+
+    .img-cover {
+        background-size: cover;
+    }
+}
+
+/****************************************/
+/**************** ICON *****************/
+/**************************************/
+$base-icon-size: 16px;
+@each $name, $s in $size {
+    $i: index($size, $s);
+
+    @if $i != 1 {
+        $base-icon-size: $base-icon-size+2;
+    }
+
+    .icon-#{$s} {
+        font-size: $base-icon-size;
+    }
+}
+
+/****************************************/
+/*************** TABLES ****************/
+/**************************************/

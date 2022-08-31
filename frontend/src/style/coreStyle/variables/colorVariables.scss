@@ -1,0 +1,117 @@
+$baseColor: (
+    black:      #f8f9fa,
+    blue:       #cfe2ff,
+    red:        #f8d7da,
+    yellow:     #fff3cd,
+    green:      #d1e7dd,
+    lightblue:  #cff4fc,
+    orange:     #ffe5d0,
+    white:      #fff,
+);
+
+/**** Base color ****/
+$base-black:#f8f9fa;
+$base-blue:#cfe2ff;
+$base-red:#f8d7da;
+$base-yellow:#fff3cd;
+$base-green:#d1e7dd;
+$base-lightblue:#cff4fc;
+$base-orange:#ffe5d0;
+$white: #fff;
+$transparent: transparent;
+
+
+$black-100: darken( $base-black, 0% );
+$black-200: darken( $base-black, 10% );
+$black-300: darken( $base-black, 20% );
+$black-400: darken( $base-black, 30% );
+$black-500: darken( $base-black, 40% );
+$black-600: darken( $base-black, 50% );
+$black-700: darken( $base-black, 60% );
+$black-800: darken( $base-black, 70% );
+$black-900: darken( $base-black, 80% );
+
+$blue-100: darken( $base-blue, 0% );
+$blue-200: darken( $base-blue, 10% );
+$blue-300: darken( $base-blue, 20% );
+$blue-400: darken( $base-blue, 30% );
+$blue-500: darken( $base-blue, 40% );
+$blue-600: darken( $base-blue, 50% );
+$blue-700: darken( $base-blue, 60% );
+$blue-800: darken( $base-blue, 70% );
+$blue-900: darken( $base-blue, 80% );
+
+$red-100: darken( $base-red, 0%  );
+$red-200: darken( $base-red, 10% );
+$red-300: darken( $base-red, 20% );
+$red-400: darken( $base-red, 30% );
+$red-500: darken( $base-red, 40% );
+$red-600: darken( $base-red, 50% );
+$red-700: darken( $base-red, 60% );
+$red-800: darken( $base-red, 70% );
+$red-900: darken( $base-red, 80% );
+
+$yellow-100: darken( $base-yellow, 0%  );
+$yellow-200: darken( $base-yellow, 10% );
+$yellow-300: darken( $base-yellow, 20% );
+$yellow-400: darken( $base-yellow, 30% );
+$yellow-500: darken( $base-yellow, 40% );
+$yellow-600: darken( $base-yellow, 50% );
+$yellow-700: darken( $base-yellow, 60% );
+$yellow-800: darken( $base-yellow, 70% );
+$yellow-900: darken( $base-yellow, 80% );
+
+$green-100: darken( $base-green, 0%  );
+$green-200: darken( $base-green, 10% );
+$green-300: darken( $base-green, 20% );
+$green-400: darken( $base-green, 30% );
+$green-500: darken( $base-green, 40% );
+$green-600: darken( $base-green, 50% );
+$green-700: darken( $base-green, 60% );
+$green-800: darken( $base-green, 70% );
+$green-900: darken( $base-green, 80% );
+
+$lightblue-100: darken( $base-lightblue, 0%  );
+$lightblue-200: darken( $base-lightblue, 10% );
+$lightblue-300: darken( $base-lightblue, 20% );
+$lightblue-400: darken( $base-lightblue, 30% );
+$lightblue-500: darken( $base-lightblue, 40% );
+$lightblue-600: darken( $base-lightblue, 50% );
+$lightblue-700: darken( $base-lightblue, 60% );
+$lightblue-800: darken( $base-lightblue, 70% );
+$lightblue-900: darken( $base-lightblue, 80% );
+
+$green-100: darken( $base-green, 0%  );
+$green-200: darken( $base-green, 10% );
+$green-300: darken( $base-green, 20% );
+$green-400: darken( $base-green, 30% );
+$green-500: darken( $base-green, 40% );
+$green-600: darken( $base-green, 50% );
+$green-700: darken( $base-green, 60% );
+$green-800: darken( $base-green, 70% );
+$green-900: darken( $base-green, 80% );
+
+$orange-100: darken( $base-orange, 0%  );
+$orange-200: darken( $base-orange, 10% );
+$orange-300: darken( $base-orange, 20% );
+$orange-400: darken( $base-orange, 30% );
+$orange-500: darken( $base-orange, 40% );
+$orange-600: darken( $base-orange, 50% );
+$orange-700: darken( $base-orange, 60% );
+$orange-800: darken( $base-orange, 70% );
+$orange-900: darken( $base-orange, 80% );
+
+/**** Hover action ****/
+$hover-action: $black-200;
+
+/**** Color theme ****/
+$black-primary:     $black-500;
+$blue-primary:      $blue-500;
+$red-primary:       $red-500;
+$yellow-primary:    $yellow-500;
+$green-primary:     $green-500;
+$gray-primary:      $black-300;
+$lightblue-primary: $lightblue-500;
+
+
+
