@@ -1,9 +1,9 @@
-<script lang="ts" setup>
-</script>
-<template>
-	
-	<RouterView/>
+<script setup>
 
+</script>
+
+<template>
+	<RouterView/>
 </template>
 
 <style lang="scss">
