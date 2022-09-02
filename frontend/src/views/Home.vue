@@ -15,7 +15,7 @@ function getUsers(id, name, age) {
     urlParams.set("q_age", age);
 
 
-    return fetch(`${urlPrefix}index.php`).then(res=>{
+    return fetch(`${urlPrefix}items/read.php`).then(res=>{
         return res.json();
     }).then(json=>{
         users.value = json;
@@ -38,36 +38,46 @@ function makeOrdine() {
     return user;
 }
 
+
+
 function makeEmptyOrdine() {
     return {
         name: "",
-        age: "",
+        age: ""
     }
 }
 
 
 function getFetchOrdine() {
     let ordineString = JSON.stringify(ordine.content);
-     
-    return fetch(`${urlPrefix}index.php`, {
+
+    console.log("ordine string", ordineString);
+/* 
+    return fetch(`${urlPrefix}/items/create.php`).then(res=>{
+        console.log(res.json())
+        return res.json();
+    }) */
+
+    return fetch(`${urlPrefix}items/create`, {
         method: "POST",
-        body: ordineString
+        body: ordineString,
     })
     
 }
+console.log("sono fextch", getFetchOrdine())
 
 function salvaOrdine() {
     getFetchOrdine().then((res)=>{
-        console.log(res.clone().json())
-        if(res.status == 200) {
-            return res.json();
-        }
-
-        throw new Error('Res code is not 200');
+        //console.log("sono res", res.clone().json())
+        return res.json();
+    }).then((json)=>{
+        ordine.content = json;
     }).catch((err)=>{
         console.error(err)
+        console.log("ciao")
     })
 }
+
 
 </script>
 
@@ -79,11 +89,11 @@ function salvaOrdine() {
         <div class="card flex f-column gap-s mg-m cnt-s">
             <span class="text-black-900 weight-500 text-l mg-b-xs">Prova 1</span>
             <div class="cnt-floating-label">
-                <input type="text" class="floating-input-100" placeholder=" ">
+                <input type="text" class="floating-input-100" v-model="ordine.content.name" placeholder=" ">
                 <label class="floating-label-100">Nome</label>
             </div>
             <div class="cnt-floating-label">
-                <input type="number" class="floating-input-100" placeholder=" ">
+                <input type="number" class="floating-input-100" v-model="ordine.content.age"  placeholder=" ">
                 <label class="floating-label-100">Età</label>
             </div>
             <button @click="salvaOrdine" class="btn-default btn-blue-secondary width-25">Salva</button>
