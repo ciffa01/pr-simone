@@ -47,13 +47,14 @@ class Items {
 			UPDATE ".$this->usersTable." 
 			SET name= ?, age = ?
 			WHERE id = ?");
+
 	 
 		$this->id = htmlspecialchars(strip_tags($this->id));
 		$this->name = htmlspecialchars(strip_tags($this->name));
 		$this->age = htmlspecialchars(strip_tags($this->age));
 
-	 
-		$stmt->bind_param("ssiisi", $this->name, $this->age);
+		$stmt->bind_param("ssi", $this->name, $this->age, $this->id);
+
 		
 		if($stmt->execute()){
 			return true;

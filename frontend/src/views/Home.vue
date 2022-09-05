@@ -1,145 +1,77 @@
 <script setup>
 import { onBeforeMount, ref, reactive } from "vue";
+import { useRouter } from 'vue-router';
+import { getUsers, urlPrefix } from "../general.js";
 
+const router = useRouter();
 const q_id = ref("");
 const q_name = ref("");
 const q_age = ref("");
 const users = ref([]);
-let urlPrefix = "/pr-simone/backend/";
-
-//////// GET /////////
-function getUsers(id, name, age) {
-    let urlParams = new URLSearchParams();
-    urlParams.set("q_id", id);
-    urlParams.set("q_name", name);
-    urlParams.set("q_age", age);
 
 
-    return fetch(`${urlPrefix}items/read.php`).then(res=>{
-        return res.json();
-    }).then(json=>{
-        users.value = json;
-    })
+
+async function fetchUser() {
+    getUsers(q_id.value, q_name.value, q_age.value).then((res)=>{
+        if(!res) {
+            console.error("Errore nella fetch degli ordini");
+            return;
+        }
+        users.value = res.items;
+        
+    }).catch(e=>{
+       console.error(e)
+    });
+    console.log("sono users", users)
 }
 
 onBeforeMount(() => {
-    getUsers(q_id.value, q_name.value, q_age.value);
+    fetchUser();
 });
 
-////// INSERT ////////
-const ordine = reactive({
-    errors: makeOrdine(),
-    content: makeOrdine(),
-    key: Date.now()
-});
-
-function makeOrdine() {
-    let user = makeEmptyOrdine();
-    return user;
-}
-
-
-
-function makeEmptyOrdine() {
-    return {
-        name: "",
-        age: ""
-    }
-}
-
-
-function getFetchOrdine() {
-    let ordineString = JSON.stringify(ordine.content);
-    return fetch(`${urlPrefix}items/create`, {
-        method: "POST",
-        body: ordineString,
-    })
-    
-}
-
-function salvaOrdine() {
-    getFetchOrdine().then((res)=>{
-        //console.log("sono res", res.clone().json())
-        return res.json();
-    }).then((json)=>{
-        ordine.content = json;
-    }).catch((err)=>{
-        console.error(err)
-        console.log("ciao")
-    })
-}
-
-function elimina(idC) {
-    let idDelete =  {
-        id: idC
+function deleteUser(id_user) {
+    let idUserDelete =  {
+        id: id_user
     }
 
-    let idd = JSON.stringify(idDelete);
+    idUserDelete = JSON.stringify(idUserDelete);
 
-    console.log(idDelete)
     return fetch(`${urlPrefix}items/delete`, {
         method: "PUT",
-        body: idd
+        body: idUserDelete
     })
+
 }
-
-console.log(users)
-
 
 </script>
 
 <template>
     <div>
-        <div class="flex f-column gap-xs">
-            <div class="card flex f-column gap-s mg-m cnt-s">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Nome</td>
-                            <td>Anni</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(value, index) in users.items" :key="index"> 
-                            <td>{{value.name}}</td>
-                            <td>{{value.age}}</td>
-                            <td>
-                                <button class="edit">Modifica</button>
-                            </td>
-                            <td>
-                                <button class="delete" @click="elimina(value.id)">Elimina</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-
-        <div class="card flex f-column gap-s mg-s cnt-s">
-            <div class="cnt-floating-label">
-                <input type="text" class="floating-input-100" v-model="ordine.content.name" placeholder=" ">
-                <label class="floating-label-100">Nome</label>
-            </div>
-            <div class="cnt-floating-label">
-                <input type="number" class="floating-input-100" v-model="ordine.content.age"  placeholder=" ">
-                <label class="floating-label-100">Età</label>
-            </div>
-            <button @click="salvaOrdine" class="btn-default btn-blue-secondary width-25">Salva</button>
-        </div>
-
-        <div class="card flex f-column gap-s mg-s cnt-s">
-            <div class="cnt-floating-label">
-                <input type="text" class="floating-input-100" v-model="ordine.content.name" placeholder=" ">
-                <label class="floating-label-100">Nome</label>
-            </div>
-            <div class="cnt-floating-label">
-                <input type="number" class="floating-input-100" v-model="ordine.content.age"  placeholder=" ">
-                <label class="floating-label-100">Età</label>
-            </div>
-            <button @click="salvaOrdine" class="btn-default btn-blue-secondary width-25">Salva</button>
+        
+        <div class="card flex f-column gap-s mg-m cnt-s">
+            <router-link class="btn-default btn-blue-secondary width-50 text-center" :to="{ name: 'insert' }">Aggiungi nuovo</router-link>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Nome</td>
+                        <td>Anni</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(value, index) in users" :key="index"> 
+                        <td>{{value.name}}</td>
+                        <td>{{value.age}}</td>
+                        <td>
+                            <router-link  class="btn-action edit" :to="{ name: 'edit', params: { id: value.id } }">Modifica</router-link>
+                        </td>
+                        <td>
+                            <button class="delete" @click="deleteUser(value.id)">Elimina</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
@@ -168,17 +100,17 @@ table tr:nth-child(even){
     background-color: #f2f2f2;
 }
 
-tbody button {
+tbody .btn-action, tbody button {
     padding: 0.5rem;
     border: 1px solid #b3b3b3;
     border-radius: 5px;
 }
 
-button.edit {    
+.btn-action.edit {    
     background: #f1ea17;
 }
 
-button.delete {    
+.button.delete {    
     background: #d00606;
     color: #fff;
 }

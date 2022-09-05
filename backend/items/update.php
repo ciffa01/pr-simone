@@ -25,6 +25,7 @@ if(!empty($data->id) && !empty($data->name) &&
 	if($items->update()){     
 		http_response_code(200);   
 		echo json_encode(array("message" => "Item was updated."));
+		//echo json_encode(array("message" => $items));
 	}else{    
 		http_response_code(503);     
 		echo json_encode(array("message" => "Unable to update items."));
