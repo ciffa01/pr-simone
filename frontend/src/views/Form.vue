@@ -1,12 +1,17 @@
 <script setup>
     import { onBeforeMount, ref, reactive, toRaw } from "vue";
     import { useRoute } from 'vue-router';
-    import { getUser, urlPrefix, makeUser } from '../general.js';
+    import { getUser, urlPrefix, makeUser, fillInUser } from '../general.js';
     const routeName = useRoute().name;
     const id_user = useRoute().params.id;
-    const users = ref([]);
+    const messageStatus = ref("");
+    const ready = ref(false);
+    
+    const STATUS_NOT_SENT = "not_sent";
+	const STATUS_ERROR = "error";
+	const STATUS_SUCCESS = "success";
+	const status = ref(STATUS_NOT_SENT);
 
-    ////// INSERT ////////
     const user = reactive({
         content: makeUser(),
         key: Date.now()
@@ -16,20 +21,18 @@
         if(routeName == "edit" ) {
             fetchOrdine();
         } else {
-			console.log("ciao")
+            console.log("sono in insert")
+			ready.value = true;
         }
     });
 
-    function fetchOrdine() {
-		getUser().then((res)=>{
-			if(!res) {
-				console.error("Error getUser form");
-				return;
-			}
 
-            users.value = res.items;
-            console.log("sono users", users)
+    function fetchOrdine() {
+		getUser(id_user).then((res)=>{
+            console.log("sono users", res.items)
+            user.content = fillInUser(res.items);
 		});
+        ready.value = true;
 	}
 
     function getFetchUser() {
@@ -38,6 +41,8 @@
         }
 
         let userString = JSON.stringify(user.content);
+
+        console.log("sono user string", userString)
         if(routeName == "edit") {
             return fetch(`${urlPrefix}items/update`, {
                 method: "PUT",
@@ -54,30 +59,42 @@
     }
 
     function salvaUser() {
+        ready.value = false;
         user.key = Date.now();
         getFetchUser().then((res)=>{
-            console.log("sono res", res.clone().json())
-            return res.json();
-        }).then((json)=>{
-            console.log("json", json)
-            user.content = json;
+            if(res.status != 400) {
+				return res.json();
+			}
+
+            messageStatus.value = "Inserimento non riuscito, mancano dei campi";
+            status.value = STATUS_ERROR;
+        }).then((resObj)=>{
+            //console.log("sono obj", resObj)
+           
+            if(typeof resObj !== 'undefined') {
+                messageStatus.value = "Inserimento effettuato";
+				status.value = STATUS_SUCCESS;
+			}
+
         }).catch((err)=>{
+            messageStatus.value = "Errore nella fetch -->  " + err;
+            status.value = STATUS_ERROR;
             console.error(err)
-            console.log("ciao")
-        })
+
+        }).finally(()=>{
+			ready.value = true;
+		});
     }
 
 </script>
     
 <template>
-    <div>
-        <span>sono in {{routeName}}</span>
-        <div v-show="(routeName == 'edit' && $route.params.id == value.id)" 
-            class="card flex f-column gap-s mg-s cnt-s" 
-            v-for="(value, index) in users" :key="index">
-            <div>ciao: {{user.content}}</div>
+    <div class="mg-l" v-if="ready">
+        <div class="card flex f-column gap-s cnt-s">
+            <!-- <div>user.content: {{user.content}}</div> -->
+
             <div class="cnt-floating-label">
-               <input type="text" class="floating-input-100"  v-model="user.content.name" placeholder=" ">
+               <input type="text" class="floating-input-100" v-model="user.content.name" placeholder=" ">
                <label class="floating-label-100">Nome</label>
             </div>
             <div class="cnt-floating-label">
@@ -85,25 +102,17 @@
                <label class="floating-label-100">Età</label>
             </div>
             <button @click="salvaUser" class="btn-default btn-blue-secondary width-25">Salva</button>
-       </div>
-   
-        <div v-show="(routeName == 'insert')" class="card flex f-column gap-s mg-s cnt-s">
-           <div class="cnt-floating-label">
-               <input type="text" class="floating-input-100" v-model="user.content.name" placeholder=" ">
-               <label class="floating-label-100">Nome</label>
-           </div>
-           <div class="cnt-floating-label">
-               <input type="number" class="floating-input-100" v-model="user.content.age"  placeholder=" ">
-               <label class="floating-label-100">Età</label>
-           </div>
-           <button @click="salvaUser" class="btn-default btn-blue-secondary width-25">Salva</button>
-       </div>
+        </div>
+       
+        <div class="box-status" :class="(status !== STATUS_ERROR ? 'bg-green-400' : 'bg-red-400')" v-show="(status != STATUS_NOT_SENT)">{{ messageStatus }}</div>
     </div>
+
 </template>
     
 <style scoped>
-
-    
+    .box-status {
+        padding: 1rem;
+    }
     
 </style>
     

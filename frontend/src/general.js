@@ -14,9 +14,8 @@ async function postUser(ordine) {
     }
 }
 
-function getUser() {
-    return fetch(`${urlPrefix}items/read`).then(res=>{
-        console.log(res.clone())
+function getUser(id_user) {
+    return fetch(`${urlPrefix}items/read/${id_user}`).then(res=>{
         return res.json()
     })
 }
@@ -47,5 +46,14 @@ export function makeEmptyUser() {
         age: ""
     }
 }
+
+export function fillInUser(user) {
+    let res = {};
+    user.forEach(obj => {
+        res = obj;
+    })
+    return res;
+}
+
 
 export { getUser, postUser, getUsers, urlPrefix };

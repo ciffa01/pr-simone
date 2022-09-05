@@ -15,7 +15,7 @@ $items = new Items($db);
  
 $data = json_decode(file_get_contents("php://input"));
 
-if(!empty($data->name) && !empty($data->age)){    
+if(!empty($data->name)){    
 
     $items->name = $data->name;
     $items->age = $data->age;

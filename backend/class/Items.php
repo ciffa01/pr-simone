@@ -32,7 +32,7 @@ class Items {
 		$this->name = htmlspecialchars(strip_tags($this->name));
 		$this->age = htmlspecialchars(strip_tags($this->age));
 		
-		$stmt->bind_param("ss", $this->name, $this->age);
+		$stmt->bind_param("si", $this->name, $this->age);
 		
 		if($stmt->execute()){
 			return true;
@@ -42,25 +42,25 @@ class Items {
 	}
 		
 	function update(){
-	 
-		$stmt = $this->conn->prepare("
-			UPDATE ".$this->usersTable." 
-			SET name= ?, age = ?
-			WHERE id = ?");
-
-	 
-		$this->id = htmlspecialchars(strip_tags($this->id));
-		$this->name = htmlspecialchars(strip_tags($this->name));
-		$this->age = htmlspecialchars(strip_tags($this->age));
-
-		$stmt->bind_param("ssi", $this->name, $this->age, $this->id);
-
+		if($this->id) { 
+			$stmt = $this->conn->prepare("
+				UPDATE ".$this->usersTable." 
+				SET name= ?, age = ?
+				WHERE id = ?");
+				//$this->id = htmlspecialchars(strip_tags($this->id));
+				$this->name = htmlspecialchars(strip_tags($this->name));
+				$this->age = htmlspecialchars(strip_tags($this->age));
 		
-		if($stmt->execute()){
+				$stmt->bind_param("sii", $this->name, $this->age, $this->id);
+		}
+		
+		/* if($stmt->execute()){
 			return true;
 		}
-	 
-		return false;
+		return false; */
+		$stmt->execute();			
+		$result = $stmt->get_result();		
+		return $result;	
 	}
 	
 	function delete(){
@@ -74,10 +74,10 @@ class Items {
 		$stmt->bind_param("i", $this->id);
 	 
 		if($stmt->execute()){
-			return true;
+			$result = $stmt->get_result();	
 		}
 	 
-		return false;		 
+		return $result;	 
 	}
 }
 ?>
