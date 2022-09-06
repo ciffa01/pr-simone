@@ -104,15 +104,11 @@
             <button @click="salvaUser" class="btn-default btn-blue-secondary width-25">Salva</button>
         </div>
        
-        <div class="box-status" :class="(status !== STATUS_ERROR ? 'bg-green-400' : 'bg-red-400')" v-show="(status != STATUS_NOT_SENT)">{{ messageStatus }}</div>
+        <div class="box-status width-25 pd-s" :class="(status !== STATUS_ERROR ? 'bg-green-400' : 'bg-red-400')" v-show="(status != STATUS_NOT_SENT)">{{ messageStatus }}</div>
     </div>
 
 </template>
     
 <style scoped>
-    .box-status {
-        padding: 1rem;
-    }
-    
 </style>
     

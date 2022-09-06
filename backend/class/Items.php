@@ -1,6 +1,5 @@
 <?php
 class Items {   
-    
     private $usersTable = "users";      
     public $id;
     public $name;
@@ -54,14 +53,12 @@ class Items {
 				$stmt->bind_param("sii", $this->name, $this->age, $this->id);
 		}
 		
-		/* if($stmt->execute()){
+		if($stmt->execute()){
 			return true;
 		}
-		return false; */
-		$stmt->execute();			
-		$result = $stmt->get_result();		
-		return $result;	
+		return false;
 	}
+
 	
 	function delete(){
 		
@@ -73,11 +70,16 @@ class Items {
 	 
 		$stmt->bind_param("i", $this->id);
 	 
+		// if($stmt->execute()){
+		// 	$result = $stmt->get_result();	
+		// }
+		// return $result;
+
 		if($stmt->execute()){
-			$result = $stmt->get_result();	
+			return true;
 		}
-	 
-		return $result;	 
+
+		return false; 
 	}
 }
 ?>

@@ -32,7 +32,6 @@ function getUsers(id, name, age) {
 }
 
 
-
 /* CREAZIONE OGGETTI STANDARD */
 export function makeUser() {
     let user = makeEmptyUser();

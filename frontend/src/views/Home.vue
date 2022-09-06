@@ -2,6 +2,7 @@
 import { onBeforeMount, ref, reactive } from "vue";
 import { useRouter } from 'vue-router';
 import { getUsers, urlPrefix } from "../general.js";
+import emailjs from 'emailjs-com';
 
 const router = useRouter();
 const q_id = ref("");
@@ -22,7 +23,7 @@ async function fetchUser() {
     }).catch(e=>{
        console.error(e)
     });
-    console.log("sono users", users)
+    //console.log("sono users", users)
 }
 
 onBeforeMount(() => {
@@ -43,6 +44,29 @@ function deleteUser(id_user) {
 
 }
 
+const name = ref("");
+const email = ref("");
+const message = ref("");
+
+function sendEmail() {
+    var templateParams = {
+        name: name.value,
+        email: email.value,
+        message: message.value
+    };
+ 
+    emailjs.send('service_u21ff44', 'template_b7nstxb', templateParams, 'zkqbZARQ0zM7tRtJD')
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+        }, function(error) {
+            console.log('FAILED...', error);
+        }
+    );
+
+    name.value = ""
+    email.value = ""
+    message.value = ""
+}
 </script>
 
 <template>
@@ -73,6 +97,37 @@ function deleteUser(id_user) {
                 </tbody>
             </table>
         </div>
+
+        
+        <div class="container">
+           
+            <label>Name</label>
+            <input 
+                type="text" 
+                v-model="name"
+                name="name"
+                placeholder="Your Name"
+            >
+
+            <label>Email</label>
+            <input 
+                type="email" 
+                v-model="email"
+                name="email"
+                placeholder="Your Email"
+            >
+
+            <label>Message</label>
+            <textarea 
+                name="message"
+                v-model="message"
+                cols="30" rows="5"
+                placeholder="Message">
+            </textarea>
+
+            <button class="btn-default btn-green-secondary text-xs" @click="sendEmail()">invia</button>
+        </div>
+
     </div>
 </template>
 
@@ -113,6 +168,46 @@ tbody .btn-action, tbody button {
 .button.delete {    
     background: #d00606;
     color: #fff;
+}
+
+
+/******* EMAIL ******/
+.container {
+    display: block;
+    margin:auto;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    width: 50%;
+}
+
+label {
+    float: left;
+}
+
+input[type=text], [type=email], textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
 }
 
 
